@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="card-service" attributes="cards">
+  <template>
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    <core-ajax id="ajax" auto url="../api/students.json" on-core-response="{{cardsLoaded}}" handleAs="json"></core-ajax>
+  </template>
+  <script>
+  Polymer('card-service', {
+    created: function() {
+      this.cards = [];
+    },
+    cardsLoaded: function() {
+      // Make a copy of the loaded data
+      this.cards = this.$.ajax.response.slice(0);
+    },
+     setFavorite: function(uid, isFavorite) {
+      // no service backend, just log the change
+      console.log('Favorite changed: ' + uid + ", now: " + isFavorite);
+    }
+  });
+  </script>
+</polymer-element>

@@ -1,0 +1,83 @@
+<!-- shared styles for all elements and index.html -->
+<dom-module id="shared-styles">
+    <template>
+        <style>
+            .page-title {
+                @apply(--paper-font-display2);
+            }
+
+            paper-menu a > *,
+            paper-menu paper-item > *,
+            paper-menu paper-icon-item > * {
+                pointer-events: none;
+            }
+
+            @media (max-width: 600px) {
+                .page-title {
+                    font-size: 24px!important;
+                }
+            }
+
+            .flexbox {
+                @apply(--layout-horizontal);
+            }
+
+            .flexchild {
+                @apply(--layout-flex);
+            }
+
+            paper-progress {
+                --paper-progress-height: 15px;
+                padding-bottom: 10px;
+            }
+
+            paper-card {
+                margin: 20px
+            }
+
+            paper-fab {
+                position: fixed;
+                bottom: 25px;
+                right: 25px;
+            }
+
+            paper-fab.student-fab {
+                position: absolute;
+                bottom: 25px;
+                right: 25px;
+                --paper-fab-background: #ffeb3b;
+            }
+
+            paper-progress.hp {
+                --paper-progress-active-color:  #4caf50;
+            }
+
+            paper-progress.lp {
+                --paper-progress-active-color: #7c4dff;
+            }
+
+            paper-progress.xp {
+                --paper-progress-active-color: #03a9f4;
+            }
+
+            paper-dialog {
+              background: #fff;
+              background-color: #fff;
+            }
+
+            paper-button#importGoogleSheetButton {
+              background: #2E7D32;
+              color: #fff;
+            }
+
+            paper-badge.level {
+              --paper-badge-width: 50px;
+              --paper-badge-height: 50px;
+              --paper-badge-background: #009688;
+              position: absolute;
+
+            }
+
+        </style>
+    </template>
+</dom-module>

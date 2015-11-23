@@ -1,20 +1,18 @@
 {
-  "name": "attenchk",
-  "version": "0.0.1",
-  "authors": [
-    "mjsolidarios <mjsolidarios@wvsu.edu.ph>"
-  ],
-  "description": "Attendance checker webapp for my class",
-  "main": "index.html",
-  "keywords": [
-    "attendance",
-    "checker",
-    "class",
-    "classroom"
-  ],
-  "license": "MIT",
-  "homepage": "none",
+  "name": "polymer-starter-kit",
+  "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.5.1"
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.1",
+    "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
+    "page": "visionmedia/page.js#~1.6.3",
+    "firebase-element": "GoogleWebComponents/firebase-element#~1.0.8",
+    "aha-table": "~2.0.11"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
   }
 }

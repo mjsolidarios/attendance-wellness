@@ -1,0 +1,53 @@
+/*
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+body {
+    background: #fafafa;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+.record-item-title {
+    font-size:1.3em;
+    padding-top: 9px;
+    vertical-align: middle
+}
+
+.record-item-title-section{
+    padding-top: 11px;
+    vertical-align: middle;
+    color: gray
+}
+
+.student-profile-img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.update-profile-img:hover{
+  cursor: pointer;
+}
+
+.addStudentOptions-content{
+  padding-top: 2px;
+
+}
+
+.slider-control{
+  display: inline-block;
+}
+
+#student_name_to_remove{
+  font-weight: bold;
+}
+
+a.class_options{
+  color: #333;
+}

@@ -1,0 +1,76 @@
+{
+  "courses" : {
+    "it211" : {
+      "description" : "Programming for the Internet",
+      "title" : "IT 211"
+    },
+    "it219" : {
+      "description" : "2D & 3D Animation",
+      "title" : "IT 219"
+    }
+  },
+  "members" : {
+    "84756" : {
+      "it219" : true
+    },
+    "78rt" : {
+      "it211" : true
+    },
+    "asdfasd" : {
+      "it219" : true
+    },
+    "rtyrty" : {
+      "it211" : true
+    },
+    "ryutryt" : {
+      "it211" : true
+    }
+  },
+  "students" : {
+    "84756" : {
+      "fbid" : "fgjf",
+      "it219" : {
+        "hp" : 43,
+        "lp" : 39,
+        "xp" : 0
+      },
+      "name" : "fgjf",
+      "profimg" : "robot.jpg"
+    },
+    "78rt" : {
+      "fbid" : "ghjfgjghj",
+      "it211" : {
+        "hp" : 100,
+        "lp" : 46,
+        "xp" : 0
+      },
+      "name" : "fghjfghjfh",
+      "profimg" : "robot.jpg"
+    },
+    "rtyrty" : {
+      "fbid" : "rtyrty",
+      "it211" : {
+        "hp" : 43,
+        "lp" : 39,
+        "xp" : 0
+      },
+      "name" : "rtyrty",
+      "profimg" : "robot.jpg"
+    },
+    "ryutryt" : {
+      "fbid" : "drhgdfh",
+      "it211" : {
+        "hp" : 100,
+        "lp" : 100,
+        "xp" : 0
+      },
+      "name" : "srtew",
+      "profimg" : "robot.jpg"
+    }
+  },
+  "users" : {
+    "root" : {
+      "active_class" : "it219"
+    }
+  }
+}

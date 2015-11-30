@@ -128,25 +128,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
 
 
-
               <template is="dom-bind">
                 <firebase-collection location="https://attdnc-app.firebaseio.com/courses" data="{{courses}}"></firebase-collection>
                 <template is="dom-repeat" items="[[courses]]" as="course">
-                  <paper-material class="record-item flexbox" elevation="1">
-                    <div class="record-item-title">[[course.title]]</div>
-                    <div class="flexchild">&nbsp;</div>
-                    <div class="record-item-title-section">[[course.description]]</div>
-                    <div class="flexchild">&nbsp;</div>
+                  <paper-card class="record-item flexbox">
+                    <div class="card-content">
+                      <div class="record-item-title">[[course.title]]</div>
+                      <div class="flexchild">&nbsp;</div>
+                      <div class="record-item-title-section">[[course.description]]</div>
+                      <div class="flexchild">&nbsp;</div>
+                    </div>
                     <div class="card-actions">
                       <input type="hidden" value="[[course.__firebaseKey__]]">
-                      <a class="class_options" data-route="demo_list" href="demo_list" onclick="app.onViewRecord(this)"><paper-icon-button icon="visibility"></paper-icon-button></a>
+                      <paper-icon-button icon="visibility" onclick="app.onViewRecord(this)"></paper-icon-button>
                       <paper-icon-button icon="create"></paper-icon-button>
                       <paper-icon-button icon="delete"></paper-icon-button>
                     </div>
-                  </paper-material>
+                  </paper-card>
                 </template>
               </template>
-              <paper-fab icon="add"></paper-fab>
+              <paper-fab icon="add" on-tap="onAddCourseDiag"></paper-fab>
+
+              <paper-dialog id="addCourseDiag" entry-animation="scale-up-animation" modal>
+                <h2>Add a Class</h2>
+                <paper-input label="Course Number" id="input_course_number"></paper-input>
+                <paper-input label="Course Description" id="input_course_desc"></paper-input>
+
+                <div class="buttons">
+                  <paper-button dialog-dismiss>Cancel</paper-button>
+                  <paper-button dialog-confirm on-tap="onUpdateCourseList">Done</paper-button>
+                </div>
+              </paper-dialog>
+
             </section>
 
             <section data-route="demo_list">
@@ -155,30 +168,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </paper-input>
               </paper-material>
 
-              <template is="dom-bind">
-                <firebase-collection location="https://attdnc-app.firebaseio.com/students" data="{{students}}"></firebase-collection>
-                <template is="dom-repeat" items="[[students]]" as="student">
-                  <paper-card>
-                    <div class="card-content">
-                      <img class="student-profile-img" src="images/robot.png" alt="">
-                      <paper-badge class="level" label="0"></paper-badge>
-                      <h3>
-                        <span style="font-weight: 300; font-size: small; color: gray">[[student.__firebaseKey__]]</span>
-                        <br>[[student.name]]</h3>
-                      <div>
-                          <wellness-levels student-id="[[student.__firebaseKey__]]"></wellness-levels>
-                      </div>
-                    </div>
-                    <div class="card-actions">
-                      <input type="hidden" value="[[student.__firebaseKey__]]">
-                      <paper-icon-button icon="visibility"></paper-icon-button>
-                      <paper-icon-button icon="create"></paper-icon-button>
-                      <paper-icon-button icon="delete" onclick="app.onRemoveStudentDiag(this)"></paper-icon-button>
-                    </div>
-                    <paper-fab class="student-fab" src="images/toxic.png"></paper-fab>
-                  </paper-card>
-                </template>
-              </template>
+              <div id="student_collection">
+                  <!-- <student-collection active-class="{{active_class}}"></student-collection> -->
+              </div>
+
+
+
               <paper-fab icon="add" on-tap="onSelectStudentAddingOption"></paper-fab>
 
               <paper-dialog id="addStudentDiag" entry-animation="scale-up-animation" modal>
@@ -235,7 +230,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <paper-button dialog-confirm on-tap="removeStudent">Yes</paper-button>
                 </div>
               </paper-dialog>
-
             </section>
           </iron-pages>
 
@@ -270,6 +264,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     -->
 
   </template>
+
+  <!-- build:js scripts/jquery.min.js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <!-- endbuild-->
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>

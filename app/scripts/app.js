@@ -13,6 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   var studentsDBString = "https://attdnc-app.firebaseio.com/students/";
   var recordsDBString = "https://attdnc-app.firebaseio.com/records/";
   var membersDBString = "https://attdnc-app.firebaseio.com/members/";
+  var coursesDBString = "https://attdnc-app.firebaseio.com/courses/";
   var usersDBString = "https://attdnc-app.firebaseio.com/users/root/";
 
   // Grab a reference to our auto-binding template
@@ -20,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
   app.active_class = null;
+  app.stud_col_status = false;
   // Sets app default base URL
   app.baseUrl = '/';
   if (window.location.port === '') { // if production
@@ -34,6 +36,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Polymer.dom(document).querySelector('#caching-complete').show();
     }
   };
+
+  app.openDialog = function(name){
+    var elementSelector = "#"+name;
+    var d = Polymer.dom(document).querySelector(elementSelector);
+    d.fit();
+    d.open();
+  };
+
+  app.openToast = function(msg){
+    app.$.toast.text = msg;
+    app.$.toast.show();
+  }
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
@@ -83,23 +97,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 
   app.onStudentAddClick = function() {
-    var diag = Polymer.dom(document).querySelector('#addStudentDiag');
-    diag.fit();
-    diag.open();
+    app.openDialog("addStudentDiag");
 
     var studentAddOptionDiag = Polymer.dom(document).querySelector('#addStudentOptions');
     studentAddOptionDiag.close();
   };
 
   app.onSelectStudentAddingOption = function() {
-    var diag = Polymer.dom(document).querySelector('#addStudentOptions');
-    diag.fit();
-    diag.open();
+    app.openDialog("addStudentOptions");
   };
 
   app.onChangeProfileImg = function() {
-    app.$.toast.text = 'Changing Profile Image';
-    app.$.toast.show();
+    app.openToast('Changing Profile Image');
   };
 
   app.onRemoveStudentDiag = function(e) {
@@ -108,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var viewElement = createElement.previousElementSibling;
     var target = viewElement.previousElementSibling.value;
 
-    var diag = Polymer.dom(document).querySelector('#removeStudentDiag');
+
     var studentID = Polymer.dom(document).querySelector('#student_id_to_remove');
     var studentName = Polymer.dom(document).querySelector('#student_name_to_remove');
 
@@ -122,30 +131,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       console.log("The read failed: " + errorObject.code);
     });
 
-    // var student_name = e.
-    diag.fit();
-    diag.open();
+    app.openDialog("removeStudentDiag");
   };
 
   app.removeStudent = function() {
     var studentID = Polymer.dom(document).querySelector('#student_id_to_remove').getAttribute("value");
     var studentsRef = new Firebase(studentsDBString + studentID);
     var recordsRef = new Firebase(recordsDBString + studentID);
-    var membersRef = new Firebase(membersDBString + studentID);
+    var membersRef = new Firebase(membersDBString + app.active_class);
+    var membersRefChild = membersRef.child(studentID);
 
     studentsRef.remove();
     recordsRef.remove();
-    membersRef.remove();
+    membersRefChild.remove();
 
-    app.$.toast.text = 'Student record removed.';
-    app.$.toast.show();
+    app.openToast('Student record removed.')
   };
 
   app.onPowerOptions = function() {
-    var diag = Polymer.dom(document).querySelector('#powerOptions');
-    diag.fit();
-    diag.open();
-  }
+    app.openDialog('powerOptions');
+  };
+
+  app.onAddCourseDiag = function(){
+    app.openDialog('addCourseDiag');
+  };
 
   app.onUpdateStudentList = function() {
     var studentIDInput = Polymer.dom(document).querySelector('#input_student_id').value;
@@ -160,12 +169,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     // Update student details and class membership
-    var studentsRef = new Firebase(studentsDBString + studentIDInputVal);
-    var membersRef = new Firebase(membersDBString + studentIDInputVal);
-    var memberClassRef = membersRef.child(app.active_class);
+    var studentsRef = new Firebase(studentsDBString);
+    var studentsRefChild = studentsRef.child(studentIDInputVal);
+    var membersRef = new Firebase(membersDBString + app.active_class);
+    var memberClassRef = membersRef.child(studentIDInputVal);
     var classStatusRef = new Firebase(studentsDBString + studentIDInputVal + "/" + app.active_class);
 
-    studentsRef.set({
+    studentsRefChild.set({
       "name": studentNameInputVal,
       "fbid": studentFbId,
       "profimg": "robot.jpg"
@@ -177,9 +187,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     memberClassRef.set(true);
 
-    app.$.toast.text = 'Student added to the list.';
-    app.$.toast.show();
+    app.openToast('Student added to the list.');
+
   };
+
+  app.onUpdateCourseList = function(){
+    var courseNumberInput = Polymer.dom(document).querySelector('#input_course_number').value;
+    var courseDescVal = Polymer.dom(document).querySelector('#input_course_desc').value;
+    var key = courseNumberInput.toLowerCase().replace(/\s/g, '');
+
+    var coursesRef = new Firebase(coursesDBString + key);
+
+    coursesRef.set({
+      "description": courseDescVal,
+      "title": courseNumberInput
+    });
+
+    var classListRef = new Firebase(usersDBString + "class_list");
+    var classListChild = classListRef.child(key);
+
+    classListChild.set(true);
+
+    app.openToast('Course list updates.');
+
+  };
+
 
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
@@ -189,11 +221,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.onViewRecord = function(e) {
     var target= e.previousElementSibling.getAttribute("value");
 
-    // Set global active class
+    // Set user's global active class
     app.active_class = target;
     var active_class_ref = new Firebase(usersDBString+"active_class");
     active_class_ref.set(target);
 
+    // Add student collection element
+    $("#student_collection").empty();
+    var dynamicEl = document.createElement("student-collection");
+    dynamicEl.setAttribute("member-location", "https://attdnc-app.firebaseio.com/members/"+app.active_class);
+    $("#student_collection").append(dynamicEl);
+
+    app.route="demo_list";
     app.scrollPageToTop();
   }
 

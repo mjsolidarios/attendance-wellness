@@ -30,7 +30,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         is: 'wellness-levels',
         properties:{
           stats: Object,
-          studentId: String,
+          sid: {
+            type: String,
+            notify: true
+          },
           firebaseLocation: String,
           levels: {
             type: Object,
@@ -43,7 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var active_class;
           var parent = this; // Awesome!
           ref.on("value", function(snapshot){
-            parent.firebaseLocation = "https://attdnc-app.firebaseio.com/students/"+parent.studentId+"/"+snapshot.val();
+            parent.firebaseLocation = "https://attdnc-app.firebaseio.com/students/"+parent.sid+"/"+snapshot.val();
             parent.notifyPath('firebaseLocation', parent.firebaseLocation);
             console.log("Debug: Levels dynamic location = "+parent.firebaseLocation);
           });

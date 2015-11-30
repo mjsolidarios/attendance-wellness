@@ -1,0 +1,69 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
+<link rel="import" href="../wellness-levels/wellness-levels.html">
+
+<dom-module id="student-card">
+  <template>
+    <style include="shared-styles"></style>
+    <firebase-document log location="{{studentLocation}}" data="{{student}}"></firebase-document>
+      <paper-card>
+        <div class="card-content">
+          <img class="student-profile-img" src="images/robot.png" alt="">
+          <paper-badge class="level" label="0"></paper-badge>
+          <h3>
+            <span style="font-weight: 300; font-size: small; color: gray">{{sid}}</span>
+            <br>{{student.name}}</h3>
+          <div>
+            <p>{{student.__firebaseKey__}}</p>
+            <wellness-levels sid="{{sid}}"></wellness-levels>
+          </div>
+        </div>
+        <div class="card-actions">
+          <input type="hidden" value="{{sid}}">
+          <paper-icon-button icon="visibility"></paper-icon-button>
+          <paper-icon-button icon="create"></paper-icon-button>
+          <paper-icon-button icon="delete" onclick="app.onRemoveStudentDiag(this)"></paper-icon-button>
+        </div>
+        <paper-fab class="student-fab" src="images/toxic.png"></paper-fab>
+      </paper-card>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'student-card',
+
+        properties: {
+          sid: {
+            type: String,
+            notify: true
+          },
+          studentLocation:{
+            type: String,
+            notify: true
+          }
+        },
+        setStudentLocation:function(sid){
+          var loc = "https://attdnc-app.firebaseio.com/students/" + sid;
+          console.log(loc);
+          return loc;
+        },
+        ready: function(){
+          this.studentLocation = this.setStudentLocation(this.sid);
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
